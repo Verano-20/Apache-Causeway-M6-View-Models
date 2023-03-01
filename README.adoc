@@ -1,0 +1,9 @@
+= SimpleApp M6 viewModelInit debugging
+
+SimpleObjectPage is a view model representation of SimpleObject.
+The idea is to fetch the data for SimpleObject from an external service and display it in the same way.
+Currently the data is still fetched using internal repositories as a placeholder.
+
+By watching the logs on loading a SimpleObjectPage, it is seen that viewModelInit() is called multiple times, hence multiple calls to fetch the data are made.
+This causes poor performance in larger apps.
+
