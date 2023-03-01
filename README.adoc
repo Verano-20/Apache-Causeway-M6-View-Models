@@ -1,9 +1,22 @@
 = SimpleApp M6 viewModelInit debugging
 
 SimpleObjectPage is a view model representation of SimpleObject.
-The idea is to fetch the data for SimpleObject from an external service and display it in the same way.
+The idea is to fetch the data for SimpleObjectPage from an external service and display it in the same way as SimpleObject.
 Currently the data is still fetched using internal repositories as a placeholder.
 
-By watching the logs on loading a SimpleObjectPage, it is seen that viewModelInit() is called multiple times, hence multiple calls to fetch the data are made.
-This causes poor performance in larger apps.
+On the dashboard, a table has been added which includes a SimpleObjectPage for every SimpleObject in the system.
 
+By watching the logs on loading the dashboard or a SimpleObjectPage, it is seen that viewModelInit() is called multiple times for each, hence multiple calls to fetch the data are made.
+This causes poor performance in larger apps.
+Is this expected behaviour or a bug?
+
+## Setup ##
+mvn clean install
+
+mvn -pl webapp spring-boot:run
+
+## Steps ##
+- Login with sven/pass.
+- Create a couple of simple objects from the menu.
+- Load the dashboard and watch the logs.
+- Load a single view model page and watch the logs.
