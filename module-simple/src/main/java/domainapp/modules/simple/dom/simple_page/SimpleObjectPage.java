@@ -1,25 +1,24 @@
 package domainapp.modules.simple.dom.simple_page;
 
+import javax.inject.Inject;
+
+import org.apache.causeway.applib.ViewModel;
+import org.apache.causeway.applib.annotation.DomainObject;
+import org.apache.causeway.applib.annotation.DomainObjectLayout;
+import org.apache.causeway.applib.annotation.Editing;
+import org.apache.causeway.applib.annotation.Optionality;
+import org.apache.causeway.applib.annotation.Property;
+
 import domainapp.modules.simple.dom.so.SimpleObject;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.isis.applib.ViewModel;
-import org.apache.isis.applib.annotation.DomainObject;
-import org.apache.isis.applib.annotation.DomainObjectLayout;
-import org.apache.isis.applib.annotation.Property;
-
-import javax.inject.Inject;
-import javax.persistence.Transient;
-
-import static org.apache.isis.applib.annotation.Editing.ENABLED;
-import static org.apache.isis.applib.annotation.Optionality.OPTIONAL;
 
 @Slf4j
 @DomainObject
 @DomainObjectLayout
 public class SimpleObjectPage implements ViewModel {
 
-    @Inject @Transient SimpleObjectPageService simpleObjectPageService;
+    SimpleObjectPageService simpleObjectPageService;
 
     @Override
     public String viewModelMemento() {
@@ -28,8 +27,8 @@ public class SimpleObjectPage implements ViewModel {
         return memento;
     }
 
-    @Override
-    public void viewModelInit( String memento ) {
+    @Inject
+    public SimpleObjectPage(final SimpleObjectPageService simpleObjectPageService, final String memento ) {
 
         log.info( "Start init SimpleObjectPage view model from memento <{}>.", memento );
 
@@ -58,11 +57,11 @@ public class SimpleObjectPage implements ViewModel {
      */
 
     @Getter
-    @Property(editing = ENABLED, optionality = OPTIONAL)
+    @Property(editing = Editing.ENABLED, optionality = Optionality.OPTIONAL)
     private String name;
 
     @Getter
-    @Property(editing = ENABLED, optionality = OPTIONAL)
+    @Property(editing = Editing.ENABLED, optionality = Optionality.OPTIONAL)
     private String notes;
 
 }

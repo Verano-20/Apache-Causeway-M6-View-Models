@@ -4,26 +4,22 @@
     <modelVersion>4.0.0</modelVersion>
 
     <parent>
-        <groupId>org.apache.isis.app</groupId>
-        <artifactId>isis-app-starter-parent</artifactId>
-        <version>2.0.0-M6</version>
+        <groupId>org.apache.causeway.app</groupId>
+        <artifactId>causeway-app-starter-parent</artifactId>
+        <version>2.0.0-SNAPSHOT</version>
         <relativePath/>
     </parent>
 
-    <groupId>org.apache.isis.starters</groupId>
-    <artifactId>simpleapp-jpa</artifactId>
-    <version>2.0.0-M6</version>
+    <artifactId>sampleapp-jpa</artifactId>
+    <groupId>org.apache.causeway.starters</groupId>
+    <version>2.0.0-SNAPSHOT</version>
 
     <name>SimpleApp (JPA) - Parent</name>
 
     <packaging>pom</packaging>
 
     <properties>
-        <isis.version>2.0.0-M6</isis.version>
         <java.version>11</java.version>
-        <maven-cucumber-reporting.version>5.3.0</maven-cucumber-reporting.version>
-        <archunit.version>0.14.1</archunit.version>
-        <skipBDD>${skipTests}</skipBDD>
     </properties>
 
     <dependencyManagement>
@@ -32,24 +28,24 @@
             <!-- this project's own modules -->
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>simpleapp-jpa-module-simple</artifactId>
+                <artifactId>sampleapp-jpa-module-simple</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>simpleapp-jpa-module-simple-tests</artifactId>
+                <artifactId>sampleapp-jpa-module-simple-tests</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
                 <type>test-jar</type>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>simpleapp-jpa-webapp</artifactId>
+                <artifactId>sampleapp-jpa-webapp</artifactId>
                 <version>${project.version}</version>
             </dependency>
             <dependency>
                 <groupId>${project.groupId}</groupId>
-                <artifactId>simpleapp-jpa-webapp-tests</artifactId>
+                <artifactId>sampleapp-jpa-webapp-tests</artifactId>
                 <version>${project.version}</version>
                 <scope>test</scope>
                 <type>test-jar</type>
@@ -98,7 +94,7 @@
             <repositories>
                 <repository>
                     <id>nightly-builds</id>
-                    <url>https://nexus.incode.work/repository/nightly-builds/</url>
+                    <url>https://raw.githubusercontent.com/apache-causeway-committers/causeway-nightly/master/mvn-snapshots</url>
                 </repository>
             </repositories>
         </profile>
