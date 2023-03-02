@@ -1,46 +1,38 @@
 package domainapp.webapp.application.services.homepage;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 import javax.inject.Inject;
-import javax.persistence.Transient;
+import javax.inject.Named;
 
-import domainapp.modules.simple.dom.simple_page.SimpleObjectPage;
-import domainapp.modules.simple.dom.simple_page.SimpleObjectPageService;
-import org.apache.isis.applib.annotation.DomainObject;
-import org.apache.isis.applib.annotation.DomainObjectLayout;
-import org.apache.isis.applib.annotation.HomePage;
-import org.apache.isis.applib.annotation.Nature;
+import org.apache.causeway.applib.annotation.Collection;
+import org.apache.causeway.applib.annotation.CollectionLayout;
+import org.apache.causeway.applib.annotation.DomainObject;
+import org.apache.causeway.applib.annotation.DomainObjectLayout;
+import org.apache.causeway.applib.annotation.HomePage;
+import org.apache.causeway.applib.annotation.Nature;
+import org.apache.causeway.applib.annotation.ObjectSupport;
+import org.apache.causeway.applib.annotation.TableDecorator;
 
+import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.dom.so.SimpleObject;
 import domainapp.modules.simple.dom.so.SimpleObjects;
 
-@DomainObject(
-        nature = Nature.VIEW_MODEL,
-        logicalTypeName = "simple.HomePageViewModel"
-        )
+@Named(SimpleModule.NAMESPACE + ".HomePageViewModel")
+@DomainObject(nature = Nature.VIEW_MODEL)
 @HomePage
 @DomainObjectLayout()
 public class HomePageViewModel {
 
-    public String title() {
+    @ObjectSupport public String title() {
         return getObjects().size() + " objects";
     }
 
+    @Collection
+    @CollectionLayout(tableDecorator = TableDecorator.DatatablesNet.class)
     public List<SimpleObject> getObjects() {
         return simpleObjects.listAll();
     }
-
-    public List<SimpleObjectPage> getObjectViewModels() {
-        return simpleObjects.listAll()
-                .stream()
-                .map( SimpleObject::getId )
-                .map( simpleObjectPageService::buildSimpleObjectPage )
-                .collect( Collectors.toList() );
-    }
-
-    @Inject @Transient SimpleObjectPageService simpleObjectPageService;
 
     @Inject SimpleObjects simpleObjects;
 }

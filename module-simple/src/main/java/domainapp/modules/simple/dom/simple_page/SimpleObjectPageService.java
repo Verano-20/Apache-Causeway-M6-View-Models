@@ -1,15 +1,20 @@
 package domainapp.modules.simple.dom.simple_page;
 
+import javax.inject.Inject;
+import javax.inject.Named;
+
+import org.springframework.stereotype.Service;
+
+import org.apache.causeway.applib.services.factory.FactoryService;
+
+import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.dom.so.SimpleObject;
 import domainapp.modules.simple.dom.so.SimpleObjectRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.isis.applib.services.factory.FactoryService;
-import org.springframework.stereotype.Service;
-
-import javax.inject.Inject;
 
 @Slf4j
 @Service
+@Named(SimpleModule.NAMESPACE + ".SimpleObjectPageService")
 public class SimpleObjectPageService {
 
     @Inject FactoryService factoryService;
@@ -18,9 +23,10 @@ public class SimpleObjectPageService {
     public SimpleObjectPage buildSimpleObjectPage( final Long id ) {
 
         log.info( "Start building SimpleObjectPage with id <{}>.", id );
-        SimpleObjectPage SimpleObjectPage = factoryService.viewModel( SimpleObjectPage.class, id.toString() );
+        SimpleObjectPage simpleObjectPage = factoryService
+                .viewModel(new SimpleObjectPage(this, id.toString()));
         log.info( "Finish building SimpleObjectPage with id <{}>.", id );
-        return SimpleObjectPage;
+        return simpleObjectPage;
     }
 
     public SimpleObjectData getSimpleObjectPageData( final Long id ) {

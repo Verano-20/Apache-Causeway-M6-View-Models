@@ -2,30 +2,31 @@ package domainapp.modules.simple.dom.so;
 
 import java.util.List;
 
+import javax.annotation.Priority;
 import javax.inject.Inject;
+import javax.inject.Named;
 import javax.persistence.TypedQuery;
 
-import org.apache.isis.applib.annotation.Action;
-import org.apache.isis.applib.annotation.ActionLayout;
-import org.apache.isis.applib.annotation.BookmarkPolicy;
-import org.apache.isis.applib.annotation.DomainService;
-import org.apache.isis.applib.annotation.NatureOfService;
-import org.apache.isis.applib.annotation.PriorityPrecedence;
-import org.apache.isis.applib.annotation.Programmatic;
-import org.apache.isis.applib.annotation.PromptStyle;
-import org.apache.isis.applib.annotation.SemanticsOf;
-import org.apache.isis.applib.query.Query;
-import org.apache.isis.applib.services.repository.RepositoryService;
-import org.apache.isis.persistence.jpa.applib.services.JpaSupportService;
+import org.apache.causeway.applib.annotation.Action;
+import org.apache.causeway.applib.annotation.ActionLayout;
+import org.apache.causeway.applib.annotation.BookmarkPolicy;
+import org.apache.causeway.applib.annotation.DomainService;
+import org.apache.causeway.applib.annotation.NatureOfService;
+import org.apache.causeway.applib.annotation.PriorityPrecedence;
+import org.apache.causeway.applib.annotation.PromptStyle;
+import org.apache.causeway.applib.annotation.SemanticsOf;
+import org.apache.causeway.applib.query.Query;
+import org.apache.causeway.applib.services.repository.RepositoryService;
+import org.apache.causeway.persistence.jpa.applib.services.JpaSupportService;
 
+import domainapp.modules.simple.SimpleModule;
 import domainapp.modules.simple.types.Name;
+import lombok.RequiredArgsConstructor;
 
-@DomainService(
-        nature = NatureOfService.VIEW,
-        logicalTypeName = "simple.SimpleObjects"
-)
-@javax.annotation.Priority(PriorityPrecedence.EARLY)
-@lombok.RequiredArgsConstructor(onConstructor_ = {@Inject} )
+@Named(SimpleModule.NAMESPACE + ".SimpleObjects")
+@DomainService(nature = NatureOfService.VIEW)
+@Priority(PriorityPrecedence.EARLY)
+@RequiredArgsConstructor(onConstructor_ = {@Inject} )
 public class SimpleObjects {
 
     final RepositoryService repositoryService;
@@ -60,7 +61,6 @@ public class SimpleObjects {
     }
 
 
-    @Programmatic
     public SimpleObject findByNameExact(final String name) {
         return simpleObjectRepository.findByName(name);
     }
@@ -75,18 +75,17 @@ public class SimpleObjects {
 
 
 
-
-    @Programmatic
     public void ping() {
         jpaSupportService.getEntityManager(SimpleObject.class)
-            .ifSuccess(entityManager -> {
+            .mapEmptyToFailure()
+            .mapSuccessAsNullable(entityManager -> {
                 final TypedQuery<SimpleObject> q = entityManager.createQuery(
                         "SELECT p FROM SimpleObject p ORDER BY p.name",
                         SimpleObject.class)
                     .setMaxResults(1);
-                q.getResultList();
-            });
+                return q.getResultList();
+            })
+            .ifFailureFail();
     }
-
 
 }

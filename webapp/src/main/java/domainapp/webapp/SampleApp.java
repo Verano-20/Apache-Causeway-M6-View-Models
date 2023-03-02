@@ -5,22 +5,22 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Import;
 
-import org.apache.isis.core.config.presets.IsisPresets;
+import org.apache.causeway.core.config.presets.CausewayPresets;
 
 @SpringBootApplication
 @Import({
     AppManifest.class
 //    , XrayEnable.class
 })
-public class SimpleApp extends SpringBootServletInitializer {
+public class SampleApp extends SpringBootServletInitializer {
 
     /**
      * @implNote this is to support the <em>Spring Boot Maven Plugin</em>, which auto-detects an
      * entry point by searching for classes having a {@code main(...)}
      */
     public static void main(String[] args) {
-        IsisPresets.prototyping();
-        SpringApplication.run(new Class[] { SimpleApp.class }, args);
+        CausewayPresets.prototyping();
+        SpringApplication.run(new Class[] { SampleApp.class }, args);
     }
 
 }
